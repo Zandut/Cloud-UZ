@@ -167,7 +167,7 @@ class Connection extends LDAPUtility {
 	 */
 	public function __clone() {
 		$this->configuration = new Configuration($this->configPrefix,
-												 !is_null($this->configID));
+			!is_null($this->configID));
 		if (count($this->bindResult) !== 0 && $this->bindResult['result'] === true) {
 			$this->bindResult = [];
 		}
@@ -408,7 +408,7 @@ class Connection extends LDAPUtility {
 				$uuidAttributes = Access::UUID_ATTRIBUTES;
 				array_unshift($uuidAttributes, 'auto');
 				if (!in_array($this->configuration->$effectiveSetting,
-							$uuidAttributes)
+					$uuidAttributes)
 					&& (!is_null($this->configID))) {
 					$this->configuration->$effectiveSetting = 'auto';
 					$this->configuration->saveConfiguration();
@@ -594,12 +594,18 @@ class Connection extends LDAPUtility {
 
 			$isOverrideMainServer = ($this->configuration->ldapOverrideMainServer
 				|| $this->getFromCache('overrideMainServer'));
-			$isBackupHost = (trim($this->configuration->ldapBackupHost) !== "");
+			$isBackupHost = (trim($this->configuration->ldapBackupHost) !== "")
+				&& (!\OC::$CLI || !$this->configuration->ldapBackgroundHost);
 			$bindStatus = false;
 			try {
 				if (!$isOverrideMainServer) {
-					$this->doConnect($this->configuration->ldapHost,
-						$this->configuration->ldapPort);
+					$host = $this->configuration->ldapHost;
+					$port = $this->configuration->ldapPort;
+					if (\OC::$CLI && $this->configuration->ldapBackgroundHost) {
+						$host = $this->configuration->ldapBackgroundHost;
+						$port = $this->configuration->ldapBackgroundPort;
+					}
+					$this->doConnect($host, $port);
 					return $this->bind();
 				}
 			} catch (ServerNotAvailableException $e) {
@@ -611,7 +617,7 @@ class Connection extends LDAPUtility {
 			//if LDAP server is not reachable, try the Backup (Replica!) Server
 			if ($isBackupHost || $isOverrideMainServer) {
 				$this->doConnect($this->configuration->ldapBackupHost,
-								 $this->configuration->ldapBackupPort);
+					$this->configuration->ldapBackupPort);
 				$this->bindResult = [];
 				$bindStatus = $this->bind();
 				$error = $this->ldap->isResource($this->ldapConnectionRes) ?
@@ -681,8 +687,8 @@ class Connection extends LDAPUtility {
 		}
 
 		$ldapLogin = @$this->ldap->bind($cr,
-										$this->configuration->ldapAgentName,
-										$this->configuration->ldapAgentPassword);
+			$this->configuration->ldapAgentName,
+			$this->configuration->ldapAgentPassword);
 
 		$this->bindResult = [
 			'sum' => md5($this->configuration->ldapAgentName . $this->configPrefix . $this->configuration->ldapAgentPassword),

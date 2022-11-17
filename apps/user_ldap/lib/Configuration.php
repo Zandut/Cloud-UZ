@@ -68,6 +68,8 @@ class Configuration {
 		'ldapPort' => null,
 		'ldapBackupHost' => null,
 		'ldapBackupPort' => null,
+		'ldapBackgroundHost' => null,
+		'ldapBackgroundPort' => null,
 		'ldapBase' => null,
 		'ldapBaseUsers' => null,
 		'ldapBaseGroups' => null,
@@ -277,7 +279,7 @@ class Configuration {
 						$value = implode("\n", $value);
 					}
 					break;
-				//following options are not stored but detected, skip them
+					//following options are not stored but detected, skip them
 				case 'ldapIgnoreNamingRules':
 				case 'ldapUuidUserAttribute':
 				case 'ldapUuidGroupAttribute':
@@ -366,8 +368,8 @@ class Configuration {
 			$defaults = $this->getDefaults();
 		}
 		return \OC::$server->getConfig()->getAppValue('user_ldap',
-										$this->configPrefix.$varName,
-										$defaults[$varName]);
+			$this->configPrefix.$varName,
+			$defaults[$varName]);
 	}
 
 	/**
@@ -412,6 +414,8 @@ class Configuration {
 			'ldap_port' => '',
 			'ldap_backup_host' => '',
 			'ldap_backup_port' => '',
+			'ldap_background_host' => '',
+			'ldap_background_port' => '',
 			'ldap_override_main_server' => '',
 			'ldap_dn' => '',
 			'ldap_agent_password' => '',
@@ -476,6 +480,8 @@ class Configuration {
 			'ldap_port' => 'ldapPort',
 			'ldap_backup_host' => 'ldapBackupHost',
 			'ldap_backup_port' => 'ldapBackupPort',
+			'ldap_background_host' => 'ldapBackgroundHost',
+			'ldap_background_port' => 'ldapBackgroundPort',
 			'ldap_override_main_server' => 'ldapOverrideMainServer',
 			'ldap_dn' => 'ldapAgentName',
 			'ldap_agent_password' => 'ldapAgentPassword',
