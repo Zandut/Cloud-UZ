@@ -53,10 +53,26 @@ export default new Router({
 			component: Users,
 			props: true,
 			name: 'users',
+			meta: {
+				title: () => {
+					return t('settings', 'Active users')
+				},
+			},
 			children: [
 				{
 					path: ':selectedGroup',
 					name: 'group',
+					meta: {
+						title: (to) => {
+							if (to.params.selectedGroup === 'admin') {
+								return t('settings', 'Admins')
+							}
+							if (to.params.selectedGroup === 'disabled') {
+								return t('settings', 'Disabled users')
+							}
+							return decodeURIComponent(to.params.selectedGroup)
+						},
+					},
 					component: Users,
 				},
 			],
