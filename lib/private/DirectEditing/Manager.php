@@ -185,7 +185,13 @@ class Manager implements IManager {
 			$this->invalidateToken($token);
 			return new NotFoundResponse();
 		}
-		return $editor->open($tokenObject);
+
+		try {
+			$this->invokeTokenScope($tokenObject->getUser());
+			return $editor->open($tokenObject);
+		} finally {
+			$this->revertTokenScope();
+		}
 	}
 
 	public function editSecure(File $file, string $editorId): TemplateResponse {
@@ -248,6 +254,10 @@ class Manager implements IManager {
 	public function invokeTokenScope($userId): void {
 		\OC_User::setIncognitoMode(true);
 		\OC_User::setUserId($userId);
+	}
+
+	public function revertTokenScope(): void {
+		\OC_User::setUserId(null);
 	}
 
 	public function createToken($editorId, File $file, string $filePath, IShare $share = null): string {
