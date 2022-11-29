@@ -203,7 +203,8 @@
 				iconClass: actionSpec.iconClass,
 				fileType: actionSpec.fileType,
 				actionHandler: actionSpec.actionHandler,
-				checkFilename: actionSpec.checkFilename
+				checkFilename: actionSpec.checkFilename,
+				shouldShow: actionSpec.shouldShow || (() => true)
 			});
 		},
 
@@ -224,10 +225,11 @@
 		 * Renders the menu with the currently set items
 		 */
 		render: function() {
+			let menuItems = this._menuItems.filter(item => !item.shouldShow || (item.shouldShow instanceof Function && item.shouldShow() === true))
 			this.$el.html(this.template({
 				uploadMaxHumanFileSize: 'TODO',
 				uploadLabel: t('files', 'Upload file'),
-				items: this._menuItems
+				items: menuItems
 			}));
 
 			// Trigger upload action also with keyboard navigation on enter
