@@ -270,6 +270,8 @@ class ViewController extends Controller {
 
 		$contentItems = [];
 
+		$this->initialState->provideInitialState('navigation', $navItems);
+
 		// render the container content for every navigation item
 		foreach ($navItems as $item) {
 			$content = '';
