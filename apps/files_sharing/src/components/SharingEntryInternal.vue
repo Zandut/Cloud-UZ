@@ -60,18 +60,18 @@ export default {
 		},
 
 		/**
-		 * Clipboard v-tooltip message
+		 * Tooltip message
 		 *
 		 * @return {string}
 		 */
-		clipboardTooltip() {
+		actionButtonTooltip() {
 			if (this.copied) {
 				if (this.copySuccess) {
 					return ''
 				}
 				return t('files_sharing', 'Cannot copy, please copy the link manually')
 			}
-			return t('files_sharing', 'Copy to clipboard')
+			return t('files_sharing', 'Copy internal link to clipboard')
 		},
 
 		internalLinkSubtitle() {

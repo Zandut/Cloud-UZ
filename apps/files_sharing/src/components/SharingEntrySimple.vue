@@ -23,7 +23,7 @@
 <template>
 	<li class="sharing-entry">
 		<slot name="avatar" />
-		<div v-tooltip="tooltip" class="sharing-entry__desc">
+		<div class="sharing-entry__desc">
 			<span class="sharing-entry__title">{{ title }}</span>
 			<p v-if="subtitle">
 				{{ subtitle }}
