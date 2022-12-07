@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 import type Node from '@nextcloud/files/dist/files/node'
 import isSvg from 'is-svg'
 
@@ -61,6 +60,8 @@ export interface Navigation {
 	parent?: string
 	/** This view is sticky (sent at the bottom) */
 	sticky?: boolean
+	/** This view has children and is expanded or not */
+	expanded?: boolean
 
 	/**
 	 * This view is sticky a legacy view.
@@ -76,15 +77,24 @@ export interface Navigation {
 }
 
 export default class {
+
 	private _views: Navigation[] = []
+	private _currentView: Navigation | null = null
 
 	constructor() {
 		logger.debug('Navigation service initialized')
 	}
 
 	register(view: Navigation) {
-		isValidNavigation(view)
-		isUniqueNavigation(view, this._views)
+		try {
+			isValidNavigation(view)
+			isUniqueNavigation(view, this._views)
+		} catch (e) {
+			if (e instanceof Error) {
+				logger.error(e.message, { view })
+			}
+			throw e
+		}
 
 		if (view.legacy) {
 			logger.warn('Legacy view detected, please migrate to Vue')
@@ -100,6 +110,15 @@ export default class {
 	get views(): Navigation[] {
 		return this._views
 	}
+
+	setActive(view: Navigation | null) {
+		this._currentView = view
+	}
+
+	get active(): Navigation | null {
+		return this._currentView
+	}
+
 }
 
 /**
@@ -126,15 +145,21 @@ const isValidNavigation = function(view: Navigation): boolean {
 		throw new Error('Navigation name is required and must be a string')
 	}
 
-	if (!view.getFiles || typeof view.getFiles !== 'function') {
-		throw new Error('Navigation getFiles is required and must be a function')
+	/**
+	 * Legacy handle their content and icon differently
+	 * TODO: remove when support for legacy views is removed
+	 */
+	if (!view.legacy) {
+		if (!view.getFiles || typeof view.getFiles !== 'function') {
+			throw new Error('Navigation getFiles is required and must be a function')
+		}
+
+		if (!view.icon || typeof view.icon !== 'string' || !isSvg(view.icon)) {
+			throw new Error('Navigation icon is required and must be a valid svg string')
+		}
 	}
 
-	if (!view.icon || typeof view.icon !== 'string' || !isSvg(view.icon)) {
-		throw new Error('Navigation icon is required and must be a valid svg string')
-	}
-
-	if (!view.order || typeof view.order !== 'number') {
+	if (!('order' in view) || typeof view.order !== 'number') {
 		throw new Error('Navigation order is required and must be a number')
 	}
 
@@ -151,8 +176,12 @@ const isValidNavigation = function(view: Navigation): boolean {
 		throw new Error('Navigation parent must be a string')
 	}
 
-	if (view.sticky && typeof view.sticky !== 'boolean') {
+	if ('sticky' in view && typeof view.sticky !== 'boolean') {
 		throw new Error('Navigation sticky must be a boolean')
+	}
+
+	if ('expanded' in view && typeof view.expanded !== 'boolean') {
+		throw new Error('Navigation expanded must be a boolean')
 	}
 
 	return true
