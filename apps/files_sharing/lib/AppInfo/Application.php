@@ -30,7 +30,9 @@
 namespace OCA\Files_Sharing\AppInfo;
 
 use OC\Group\DisplayNameCache as GroupDisplayNameCache;
+use OC\ServerContainer;
 use OC\Share\Share;
+use OC\Share20\ShareDisplayTemplateFactory;
 use OC\User\DisplayNameCache;
 use OCA\Files_Sharing\Capabilities;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
@@ -75,6 +77,7 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\IManager;
+use OCP\Share\IShareDisplayTemplateFactory;
 use OCP\User\Events\UserChangedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
@@ -111,6 +114,7 @@ class Application extends App implements IBootstrap {
 		$context->registerNotifierService(Notifier::class);
 		$context->registerEventListener(UserChangedEvent::class, DisplayNameCache::class);
 		$context->registerEventListener(GroupChangedEvent::class, GroupDisplayNameCache::class);
+		$context->registerServiceAlias(\OCP\Share\IShareDisplayTemplateFactory::class, ShareDisplayTemplateFactory::class);
 	}
 
 	public function boot(IBootContext $context): void {
