@@ -153,7 +153,7 @@ class DefaultShareDisplayTemplateProvider implements IShareDisplayTemplateProvid
 			'token' => $token,
 			'filename' => $shareIsFolder ? null : $shareNode->getName()
 		]);
-		$shareTmpl['shareUrl'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $this->getToken()]);
+		$shareTmpl['shareUrl'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $token]);
 		$shareTmpl['maxSizeAnimateGif'] = $this->config->getSystemValue('max_filesize_animated_gifs_public_sharing', 10);
 		$shareTmpl['previewEnabled'] = $this->config->getSystemValue('enable_previews', true);
 		$shareTmpl['previewMaxX'] = $this->config->getSystemValue('preview_max_x', 1024);
@@ -168,7 +168,7 @@ class DefaultShareDisplayTemplateProvider implements IShareDisplayTemplateProvid
 
 			// We just have direct previews for image files
 			if ($shareNode->getMimePart() === 'image') {
-				$shareTmpl['previewURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.publicpreview.directLink', ['token' => $this->getToken()]);
+				$shareTmpl['previewURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.publicpreview.directLink', ['token' => $token]);
 
 				$ogPreview = $shareTmpl['previewURL'];
 
@@ -267,5 +267,6 @@ class DefaultShareDisplayTemplateProvider implements IShareDisplayTemplateProvid
 		}
 
 		$response->setContentSecurityPolicy($csp);
+		return $response;
 	}
 }
