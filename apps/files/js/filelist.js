@@ -393,6 +393,7 @@
 
 			this.$fileList.on('change', 'td.selection>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
 			this.$fileList.on('mouseover', 'td.selection', _.bind(this._onMouseOverCheckbox, this));
+			console.debug('F2V', this.$el);
 			this.$el.on('show', _.bind(this._onShow, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
@@ -754,23 +755,22 @@
 		 * Event handler when leaving previously hidden state
 		 */
 		_onShow: function(e) {
+			console.debug('F2V', 'onShow', e);
 			OCA.Files.App && OCA.Files.App.updateCurrentFileList(this);
-			if (this.shown) {
-				if (e.itemId === this.id) {
-					this._setCurrentDir('/', false);
-				}
-				// Only reload if we don't navigate to a different directory
-				if (typeof e.dir === 'undefined' || e.dir === this.getCurrentDirectory()) {
-					this.reload();
-				}
+			if (e.itemId === this.id) {
+				this._setCurrentDir('/', false);
 			}
-			this.shown = true;
+			// Only reload if we don't navigate to a different directory
+			if (typeof e.dir === 'undefined' || e.dir === this.getCurrentDirectory()) {
+				this.reload();
+			}
 		},
 
 		/**
 		 * Event handler for when the URL changed
 		 */
 		_onUrlChanged: function(e) {
+			console.debug('F2V', 'onUrlChanged', e);
 			if (e && _.isString(e.dir)) {
 				var currentDir = this.getCurrentDirectory();
 				// this._currentDirectory is NULL when fileList is first initialised

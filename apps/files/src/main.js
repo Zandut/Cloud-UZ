@@ -1,4 +1,3 @@
-import './files-app-settings.js'
 import './templates.js'
 import './legacy/filelistSearch.js'
 import processLegacyFilesViews from './legacy/navigationMapper.js'

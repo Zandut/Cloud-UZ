@@ -228,8 +228,8 @@
 		 * Sets the currently active view
 		 * @param viewId view id
 		 */
-		setActiveView: function(viewId, options) {
-			window._nc_event_bus.emit('files:view:changed', { id: viewId })
+		setActiveView: function(viewId) {
+			window._nc_event_bus.emit('files:navigation:changed', { id: viewId })
 		},
 
 		/**
@@ -260,8 +260,8 @@
 			$('#app-content').delegate('>div', 'afterChangeDirectory', _.bind(this._onAfterDirectoryChanged, this));
 			$('#app-content').delegate('>div', 'changeViewerMode', _.bind(this._onChangeViewerMode, this));
 
-			window._nc_event_bus.subscribe('files:view:changed', _.bind(this._onNavigationChanged, this))
-			$('#app-navigation').on('itemChanged', _.bind(this._onNavigationChanged, this));
+			// window._nc_event_bus.subscribe('files:navigation:changed', _.bind(this._onNavigationChanged, this))
+			// $('#app-navigation').on('itemChanged', _.bind(this._onNavigationChanged, this));
 			this.$showHiddenFiles.on('change', _.bind(this._onShowHiddenFilesChange, this));
 			this.$cropImagePreviews.on('change', _.bind(this._onCropImagePreviewsChange, this));
 		},
@@ -384,7 +384,7 @@
 			if (lastId !== this.getActiveView()) {
 				this.getCurrentAppContainer().trigger(new $.Event('show'));
 			}
-			this.getCurrentAppContainer().trigger(new $.Event('urlChanged', params));
+			// this.getCurrentAppContainer().trigger(new $.Event('urlChanged', params));
 			window._nc_event_bus.emit('files:navigation:changed')
 		},
 
@@ -413,13 +413,18 @@
 			}
 			var currentParams = OC.Util.History.parseUrlQuery();
 			if (currentParams.dir === params.dir && currentParams.view === params.view) {
-				if (currentParams.fileid !== params.fileid) {
+				if (parseInt(currentParams.fileid) !== parseInt(params.fileid)) {
 					// if only fileid changed or was added, replace instead of push
+					console.debug('F2V 1', currentParams.fileid, params.fileid, params);
 					OC.Util.History.replaceState(this._makeUrlParams(params));
+					return
 				}
 			} else {
+				console.debug('F2V 2', params);
 				OC.Util.History.pushState(this._makeUrlParams(params));
+				return
 			}
+			console.debug('F2V 3', params, currentParams);
 		},
 
 		/**
