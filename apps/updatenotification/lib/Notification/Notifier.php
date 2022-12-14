@@ -128,7 +128,7 @@ class Notifier implements INotifier {
 			$this->updateAlreadyInstalledCheck($notification, $this->getCoreVersions());
 
 			$parameters = $notification->getSubjectParameters();
-			$notification->setParsedSubject($l->t('Update to %1$s is available.', [$parameters['version']]));
+			$notification->setParsedSubject($l->t('Update for Nextcloud to version %1$s is available.', [$parameters['version']]));
 
 			if ($this->isAdmin()) {
 				$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index', ['section' => 'overview']) . '#version');
