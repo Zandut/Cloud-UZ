@@ -10,11 +10,11 @@
 			</template>
 
 			<NcActionLink :href="internalLink"
-				:aria-label="t('files_sharing', 'Copy internal link to clipboard')"
+				:aria-label="actionButtonTooltip"
+				:title="actionButtonTooltip"
 				target="_blank"
 				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
 				@click.prevent="copyLink">
-				{{ clipboardTooltip }}
 			</NcActionLink>
 		</SharingEntrySimple>
 	</ul>

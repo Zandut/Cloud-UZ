@@ -41,7 +41,6 @@
 
 <script>
 import NcActions from '@nextcloud/vue/dist/Components/NcActions'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 export default {
 	name: 'SharingEntrySimple',
@@ -50,19 +49,11 @@ export default {
 		NcActions,
 	},
 
-	directives: {
-		Tooltip,
-	},
-
 	props: {
 		title: {
 			type: String,
 			default: '',
 			required: true,
-		},
-		tooltip: {
-			type: String,
-			default: '',
 		},
 		subtitle: {
 			type: String,

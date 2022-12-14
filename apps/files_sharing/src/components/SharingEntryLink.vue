@@ -40,10 +40,10 @@
 			class="sharing-entry__copy">
 			<NcActionLink :href="shareLink"
 				target="_blank"
+				:title="copyButtonTooltipMessage"
 				:aria-label="t('files_sharing', 'Copy public link to clipboard')"
 				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
 				@click.stop.prevent="copyLink">
-				{{ clipboardTooltip }}
 			</NcActionLink>
 		</NcActions>
 
@@ -291,7 +291,6 @@ import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator'
 import NcActionTextEditable from '@nextcloud/vue/dist/Components/NcActionTextEditable'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
 import ExternalShareAction from './ExternalShareAction.vue'
 import SharePermissionsEditor from './SharePermissionsEditor.vue'
@@ -314,10 +313,6 @@ export default {
 		NcAvatar,
 		ExternalShareAction,
 		SharePermissionsEditor,
-	},
-
-	directives: {
-		Tooltip,
 	},
 
 	mixins: [SharesMixin],
