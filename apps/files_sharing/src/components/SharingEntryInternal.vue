@@ -10,8 +10,8 @@
 			</template>
 
 			<NcActionLink :href="internalLink"
-				:aria-label="actionButtonTooltip"
-				:title="actionButtonTooltip"
+				:aria-label="copyLinkTooltip"
+				:title="copyLinkTooltip"
 				target="_blank"
 				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
 				@click.prevent="copyLink">
@@ -64,7 +64,7 @@ export default {
 		 *
 		 * @return {string}
 		 */
-		actionButtonTooltip() {
+		copyLinkTooltip() {
 			if (this.copied) {
 				if (this.copySuccess) {
 					return ''

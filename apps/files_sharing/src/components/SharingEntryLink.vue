@@ -40,8 +40,8 @@
 			class="sharing-entry__copy">
 			<NcActionLink :href="shareLink"
 				target="_blank"
-				:title="copyButtonTooltipMessage"
-				:aria-label="t('files_sharing', 'Copy public link to clipboard')"
+				:title="copyLinkTooltip"
+				:aria-label="copyLinkTooltip"
 				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
 				@click.stop.prevent="copyLink">
 			</NcActionLink>
@@ -536,7 +536,7 @@ export default {
 		 *
 		 * @return {string}
 		 */
-		copyButtonTooltipMessage() {
+		copyLinkTooltip() {
 			if (this.copied) {
 				if (this.copySuccess) {
 					return ''
