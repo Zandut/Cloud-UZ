@@ -30,6 +30,8 @@
  */
 namespace OCA\Files_Versions\Listener;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\DB\Exceptions\DbalException;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Node\NonExistingFile;
@@ -151,14 +153,26 @@ class FileEventsListener implements IEventListener {
 
 		unset($this->nodesTouched[$node->getId()]);
 
-		// We update the timestamp of the version entity associated with the previousNode.
-		$versionEntity = $this->versionsMapper->findVersionForFileId($previousNode->getId(), $previousNode->getMTime());
-		// Create a version in the DB for the current content.
-		$versionEntity->setTimestamp($node->getMTime());
-		$this->versionsMapper->update($versionEntity);
+		try {
+			// We update the timestamp of the version entity associated with the previousNode.
+			$versionEntity = $this->versionsMapper->findVersionForFileId($previousNode->getId(), $previousNode->getMTime());
+			// Create a version in the DB for the current content.
+			$versionEntity->setTimestamp($node->getMTime());
+			$this->versionsMapper->update($versionEntity);
+		} catch (DbalException $ex) {
+			// Ignore UniqueConstraintViolationException, as we are probably in the middle of a rollback.
+			if (!($ex->getPrevious() instanceof UniqueConstraintViolationException)) {
+				throw $ex;
+			}
+		}
 	}
 
 	public function created(Node $node): void {
+		// Do not handle folders.
+		if ($node instanceof Folder) {
+			return;
+		}
+
 		$versionEntity = new VersionEntity();
 		$versionEntity->setFileId($node->getId());
 		$versionEntity->setTimestamp($node->getMTime());
