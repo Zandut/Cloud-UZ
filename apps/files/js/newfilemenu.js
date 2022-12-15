@@ -213,7 +213,7 @@
         useInput: actionSpec.useInput,
 				actionHandler: actionSpec.actionHandler,
 				checkFilename: actionSpec.checkFilename,
-				shouldShow: actionSpec.shouldShow || (() => true)
+				shouldShow: actionSpec.shouldShow,
 			});
 		},
 
