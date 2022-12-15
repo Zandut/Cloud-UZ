@@ -14,8 +14,7 @@
 				:title="copyLinkTooltip"
 				target="_blank"
 				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
-				@click.prevent="copyLink">
-			</NcActionLink>
+				@click.prevent="copyLink" />
 		</SharingEntrySimple>
 	</ul>
 </template>

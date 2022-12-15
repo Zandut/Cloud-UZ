@@ -43,8 +43,7 @@
 				:title="copyLinkTooltip"
 				:aria-label="copyLinkTooltip"
 				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
-				@click.stop.prevent="copyLink">
-			</NcActionLink>
+				@click.stop.prevent="copyLink" />
 		</NcActions>
 
 		<!-- pending actions -->
