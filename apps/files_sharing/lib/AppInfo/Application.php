@@ -114,7 +114,6 @@ class Application extends App implements IBootstrap {
 		$context->registerNotifierService(Notifier::class);
 		$context->registerEventListener(UserChangedEvent::class, DisplayNameCache::class);
 		$context->registerEventListener(GroupChangedEvent::class, GroupDisplayNameCache::class);
-		$context->registerServiceAlias(\OCP\Share\IShareDisplayTemplateFactory::class, ShareDisplayTemplateFactory::class);
 	}
 
 	public function boot(IBootContext $context): void {

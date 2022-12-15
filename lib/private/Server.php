@@ -1453,6 +1453,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IBinaryFinder::class, BinaryFinder::class);
 
+		$this->registerAlias(\OCP\Share\IShareDisplayTemplateFactory::class, \OC\Share20\ShareDisplayTemplateFactory::class);
+
 		$this->connectDispatcher();
 	}
 
