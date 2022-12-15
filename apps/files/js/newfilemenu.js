@@ -81,10 +81,18 @@
 			if (action === 'upload') {
 				OC.hideMenus();
 			} else {
-				event.preventDefault();
-				this.$el.find('.menuitem.active').removeClass('active');
-				$target.addClass('active');
-				this._promptFileName($target);
+				var actionItem = _.filter(this._menuItems, function(item) {
+					return item.id === action
+				}).pop();
+				if (typeof actionItem.useInput === 'undefined' || actionItem.useInput === true) {
+					event.preventDefault();
+					this.$el.find('.menuitem.active').removeClass('active');
+					$target.addClass('active');
+					this._promptFileName($target);
+				} else {
+					actionItem.actionHandler();
+					OC.hideMenus();
+				}
 			}
 		},
 
@@ -202,6 +210,7 @@
 				templateName: actionSpec.templateName,
 				iconClass: actionSpec.iconClass,
 				fileType: actionSpec.fileType,
+        useInput: actionSpec.useInput,
 				actionHandler: actionSpec.actionHandler,
 				checkFilename: actionSpec.checkFilename,
 				shouldShow: actionSpec.shouldShow || (() => true)
