@@ -417,7 +417,7 @@ import { getCapabilities } from '@nextcloud/capabilities'
 				tooltip += '@' + server.replace(protocol, '') + serverPath
 			}
 
-			var html = '<span class="remoteAddress" title="' + text(tooltip) + '">'
+			var html = '<span class="remoteAddress" title="' + escapeHTML(tooltip) + '">'
 			html += '<span class="username">' + escapeHTML(userName) + '</span>'
 			if (userDomain) {
 				html += '<span class="userDomain">@' + escapeHTML(userDomain) + '</span>'
