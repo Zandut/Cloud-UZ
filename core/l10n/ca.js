@@ -190,7 +190,6 @@ OC.L10N.register(
     "You have not added any info yet" : "No hi heu afegit cap informació encara",
     "{user} has not added any info yet" : "{user} no hi ha afegit cap informació encara",
     "Error opening the user status modal, try hard refreshing the page" : "S'ha produït un error en obrir el modal d'estat de l'usuari, proveu d'actualitzar la pàgina",
-    "Search starts once you start typing" : "La cerca comença quan comences a escriure",
     "Reset search" : "Reinicialitza la cerca",
     "Start search" : "Inicia la cerca",
     "Search for {name} only" : "Cerqueu només per {name}",

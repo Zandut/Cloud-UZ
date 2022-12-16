@@ -188,7 +188,6 @@
     "You have not added any info yet" : "まだ情報が追加されていません",
     "{user} has not added any info yet" : "{user}が、まだ情報を追加していません",
     "Error opening the user status modal, try hard refreshing the page" : "ユーザーステータスモーダルを開くときにエラーが発生しました。ページを更新してみてください",
-    "Search starts once you start typing" : "入力すると検索が開始されます",
     "Reset search" : "検索をリセットする",
     "Start search" : "検索開始",
     "Search for {name} only" : "{name}のみを検索",

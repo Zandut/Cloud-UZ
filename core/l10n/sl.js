@@ -169,7 +169,6 @@ OC.L10N.register(
     "Back" : "Nazaj",
     "Login form is disabled." : "Prijavni obrazec je onemogočen.",
     "Edit Profile" : "Uredi profil",
-    "Search starts once you start typing" : "Iskanje se začne z vpisovanjem",
     "Reset search" : "Ponastavi iskanje",
     "Start search" : "Začni z iskanjem",
     "Search for {name} only" : "Išči le za {name}",

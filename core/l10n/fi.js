@@ -152,7 +152,6 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "Otsikko ja listätieto-osiot näkyvät tässä",
     "You have not added any info yet" : "Et ole lisännyt tietoja vielä",
     "{user} has not added any info yet" : "{user} ei ole lisännyt tietoja vielä",
-    "Search starts once you start typing" : "Haku käynnistyy kun alat kirjoittamaan",
     "Reset search" : "Tyhjennä haku",
     "Start search" : "Aloita haku",
     "Search for {name} only" : "Etsi vain {name}",

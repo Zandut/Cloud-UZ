@@ -299,7 +299,7 @@
 
 <script>
 import { generateUrl } from '@nextcloud/router'
-import { showError } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { Type as ShareTypes } from '@nextcloud/sharing'
 import Vue from 'vue'
 
@@ -564,9 +564,10 @@ export default {
 		 */
 		clipboardTooltip() {
 			if (this.copied) {
-				return this.copySuccess
-					? t('files_sharing', 'Link copied')
-					: t('files_sharing', 'Cannot copy, please copy the link manually')
+				if (this.copySuccess) {
+					return ''
+				}
+				return t('files_sharing', 'Cannot copy, please copy the link manually')
 			}
 			return t('files_sharing', 'Copy to clipboard')
 		},
@@ -766,12 +767,14 @@ export default {
 			if (typeof this.share.newLabel === 'string') {
 				this.share.label = this.share.newLabel
 				this.$delete(this.share, 'newLabel')
+				showSuccess(t('files_sharing', 'Share label saved'))
 				this.queueUpdate('label')
 			}
 		},
 		async copyLink() {
 			try {
 				await this.$copyText(this.shareLink)
+				showSuccess(t('files_sharing', 'Link copied'))
 				// focus and show the tooltip
 				this.$refs.copyButton.$el.focus()
 				this.copySuccess = true
@@ -832,6 +835,7 @@ export default {
 		onPasswordSubmit() {
 			if (this.hasUnsavedPassword) {
 				this.share.password = this.share.newPassword.trim()
+				showSuccess(t('files_sharing', 'Share password saved'))
 				this.queueUpdate('password')
 			}
 		},

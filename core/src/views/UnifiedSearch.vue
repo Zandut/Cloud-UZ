@@ -55,7 +55,7 @@
 						@input="onInputDebounced"
 						@keypress.enter.prevent.stop="onInputEnter">
 					<p id="unified-search-desc" class="hidden-visually">
-						{{ t('core', 'Search starts once you start typing') }}
+						{{ t('core', 'Search starts once you start typing and results may be reached with the arrow keys') }}
 					</p>
 
 					<!-- Reset search button -->
@@ -740,7 +740,7 @@ $input-padding: 6px;
 		label[for="unified-search__input"] {
 			align-self: flex-start;
 			font-weight: bold;
-			font-size: 18px;
+			font-size: 19px;
 			margin-left: 13px;
 		}
 	}
@@ -837,10 +837,10 @@ $input-padding: 6px;
 			display: block;
 			margin: $margin;
 			margin-bottom: $margin - 4px;
-			margin-left: $margin + $input-padding;
+			margin-left: 13px;
 			color: var(--color-primary-element);
-			font-weight: normal;
-			font-size: 18px;
+			font-size: 19px;
+			font-weight: bold;
 		}
 		display: flex;
 		flex-direction: column;
