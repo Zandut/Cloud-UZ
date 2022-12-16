@@ -69,16 +69,10 @@
 		_setupClipboard: function() {
 			var clipboard = new Clipboard('.permalink');
 			clipboard.on('success', function(e) {
-				var $el = $(e.trigger);
-				$el.tooltip('hide')
-					.attr('data-original-title', t('core', 'Copied!'))
-					.tooltip('_fixTitle')
-					.tooltip({placement: 'bottom', trigger: 'manual'})
-					.tooltip('show');
+				var $el = $(e.trigger)
+					.attr('title', t('core', 'Copied!'))
 				_.delay(function() {
-					$el.tooltip('hide');
-					$el.attr('data-original-title', t('files', 'Copy direct link (only works for users who have access to this file/folder)'))
-						.tooltip('_fixTitle');
+					$el.attr('title', t('files', 'Copy direct link (only works for users who have access to this file/folder)'))
 				}, 3000);
 			});
 			clipboard.on('error', function(e) {
@@ -192,7 +186,6 @@
 					}
 					$iconDiv.css('background-image', 'url("' + iconUrl + '")');
 				}
-				this.$el.find('[title]').tooltip({placement: 'bottom'});
 			} else {
 				this.$el.empty();
 			}
